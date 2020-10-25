@@ -2,7 +2,6 @@ package application;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import entities.Lawn;
 import entities.Mower;
@@ -16,28 +15,26 @@ public class Launcher {
       throw new IllegalArgumentException("Please provide at least one file name.");
 
     for (String fileName : fileNames) {
-      List<Mower> finishedMowers = runner(fileName);
-      finishedMowers.forEach(mower -> System.out.println(
-          mower.getPosition().x + " " + mower.getPosition().y + " " + mower.getDirection()));
+      List<Mower> finishedMowers;
+      try {
+        finishedMowers = runner(fileName);
+        finishedMowers.forEach(mower -> System.out.println(
+            mower.getPosition().x + " " + mower.getPosition().y + " " + mower.getDirection()));
+      } catch (FileNotFoundException e) {
+        System.err.println("Error, file with name " + fileName + " was not found.");
+      }
     }
   }
 
-  public static List<Mower> runner(String fileName) {
+  public static List<Mower> runner(String fileName) throws FileNotFoundException {
     ImmutablePair<Lawn, List<Mower>> initialState = null;
 
-    try {
-      initialState = FileLoader.loadScenarios(fileName);
-    } catch (FileNotFoundException e) {
-      System.err.println("Error, file was not found : " + e.getMessage());
-    }
+    initialState = FileLoader.loadScenarios(fileName);
 
     Lawn lawn = initialState.getKey();
     List<Mower> mowersToRun = initialState.getValue();
     MowerMover mowerMover = MowerMover.builder().lawn(lawn).build();
     MowerRunner mowerRunner = MowerRunner.builder().mowersToRun(mowersToRun).build();
-
-    System.out.println(lawn.toString());
-    mowersToRun.forEach(mower -> System.out.println(mower.toString()));
 
     return mowerRunner.runMowers(mowerMover);
   }

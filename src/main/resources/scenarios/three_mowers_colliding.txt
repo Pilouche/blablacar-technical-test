@@ -1,0 +1,7 @@
+5 10
+1 2 E
+FFFFF
+2 3 S
+FFRF
+4 2 W
+FFRF

@@ -24,33 +24,26 @@ public class MowerMover {
     }
   }
 
-  public void nextPoint(Point currentPosition, Direction currentDirection) {
-    String log = "Mower is blocked in direction "+ currentDirection;
+  public Point nextPosition(Point currentPosition, Direction currentDirection) {
+    Point nextPosition = new Point(currentPosition);
     switch (currentDirection) {
       case N:
-        if (currentPosition.getY() + 1 > lawn.getYDimension())
-          System.out.println(log);
-        else
-          currentPosition.translate(0, 1);
+        if (!(nextPosition.getY() + 1 > lawn.getYDimension()))
+          nextPosition.translate(0, 1);
         break;
       case E:
-        if (currentPosition.getX() + 1 > lawn.getXDimension())
-          System.out.println(log);
-        else
-          currentPosition.translate(1, 0);
+        if (!(nextPosition.getX() + 1 > lawn.getXDimension()))
+          nextPosition.translate(1, 0);
         break;
       case S:
-        if (currentPosition.getY() - 1 < 0)
-          System.out.println(log);
-        else
-          currentPosition.translate(0, -1);
+        if (!(nextPosition.getY() - 1 < 0))
+          nextPosition.translate(0, -1);
         break;
       case W:
-        if (currentPosition.getX() - 1 < 0)
-          System.out.println(log);
-        else
-          currentPosition.translate(-1, 0);
+        if (!(nextPosition.getX() - 1 < 0))
+          nextPosition.translate(-1, 0);
         break;
     }
+    return nextPosition;
   }
 }

@@ -1,0 +1,5 @@
+5 10
+1 2 E
+FFFLF
+5 2 W
+FFFFFF
