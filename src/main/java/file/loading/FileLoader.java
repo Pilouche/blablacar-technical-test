@@ -16,17 +16,10 @@ import entities.Direction;
 import entities.Lawn;
 import entities.Move;
 import entities.Mower;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
 public class FileLoader {
-  private String fileName;
-
-  public ImmutablePair<Lawn, List<Mower>> loadScenarios() throws FileNotFoundException {
+  public static ImmutablePair<Lawn, List<Mower>> loadScenarios(String fileName)
+      throws FileNotFoundException {
     List<Mower> mowers = new ArrayList<Mower>();
 
     ClassLoader classLoader = Launcher.class.getClassLoader();
@@ -38,6 +31,7 @@ public class FileLoader {
     Scanner scanner = new Scanner(inputFileStream);
 
     Lawn lawn = Lawn.builder().xDimension(scanner.nextInt()).yDimension(scanner.nextInt()).build();
+
     // skipping the \n after the last digit
     scanner.nextLine();
 
