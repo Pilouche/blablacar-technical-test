@@ -38,7 +38,6 @@ public class MowerRunner {
       }
       mowersToRun.removeAll(finishedMowers);
     }
-    finishedMowers.forEach(m -> System.out.println(m.toString()));
     return finishedMowers;
   }
   
