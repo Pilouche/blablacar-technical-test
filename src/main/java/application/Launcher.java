@@ -18,8 +18,10 @@ public class Launcher {
       List<Mower> finishedMowers;
       try {
         finishedMowers = runner(fileName);
+        System.out.println("Result for " + fileName);
         finishedMowers.forEach(mower -> System.out.println(
             mower.getPosition().x + " " + mower.getPosition().y + " " + mower.getDirection()));
+        System.out.println("-----");
       } catch (FileNotFoundException e) {
         System.err.println("Error, file with name " + fileName + " was not found.");
       }
