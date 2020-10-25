@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import application.Launcher;
 import entities.Direction;
 import entities.Lawn;
 import entities.Move;
@@ -22,8 +21,7 @@ public class FileLoader {
       throws FileNotFoundException {
     List<Mower> mowers = new ArrayList<Mower>();
 
-    ClassLoader classLoader = Launcher.class.getClassLoader();
-    InputStream inputFileStream = classLoader.getResourceAsStream(fileName);
+    InputStream inputFileStream = FileLoader.class.getClassLoader().getResourceAsStream(fileName);
 
     if (inputFileStream == null)
       throw new FileNotFoundException();

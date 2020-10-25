@@ -35,10 +35,6 @@ public class MowerRunner {
             currentPositions.remove(mower.getPosition());
             mower.setPosition(nextPosition);
             currentPositions.add(nextPosition);
-          } else {
-            // the next position is not free or the bound is reached, mower can't move forward
-            // current positions stay the same
-            System.err.println("Mower is blocked by a bound or another mowner.");
           }
         } else {
           // the mower is changing direction
@@ -47,7 +43,6 @@ public class MowerRunner {
         mower.getInstructions().remove(0);
         if (mower.getInstructions().size() == 0) {
           // the mower doesn't have any instruction anymore
-          System.out.println("Finished at i : " + i + " | " + mower.toString());
           finishedMowers.add(mower);
         }
       }
