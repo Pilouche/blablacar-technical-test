@@ -13,6 +13,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Mower {
+  private int id;
   private Point position;
   private Direction direction;
   private List<Move> instructions;

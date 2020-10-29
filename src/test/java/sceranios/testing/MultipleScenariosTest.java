@@ -80,7 +80,8 @@ public class MultipleScenariosTest {
     assertTrue(CollectionUtils.isEqualCollection(expectedMowers, finishedMowers, mowerEquator));
   }
 
-  @Test
+  @Deprecated
+  // @Test
   void twoMowersColliding() throws FileNotFoundException {
     List<Mower> expectedMowers = Arrays.asList(
         Mower.builder().position(new Point(3, 3)).direction(Direction.N)
@@ -91,7 +92,8 @@ public class MultipleScenariosTest {
     assertTrue(CollectionUtils.isEqualCollection(expectedMowers, finishedMowers, mowerEquator));
   }
 
-  @Test
+  @Deprecated
+  //@Test
   void threeMowersColliding() throws FileNotFoundException {
     List<Mower> expectedMowers = Arrays.asList(
         Mower.builder().position(new Point(3, 2)).direction(Direction.E)

@@ -33,11 +33,13 @@ public class FileLoader {
     // skipping the \n after the last digit
     scanner.nextLine();
 
+    int id = 1;
+
     while (scanner.hasNext()) {
       String[] mowerParameters = scanner.nextLine().split(" ");
       String[] mowerInstructions = scanner.nextLine().split("");
 
-      mowers.add(Mower.builder()
+      mowers.add(Mower.builder().id(id++)
           .position(
               new Point(Integer.parseInt(mowerParameters[0]), Integer.parseInt(mowerParameters[1])))
           .direction(Direction.valueOf(mowerParameters[2])).instructions(Arrays
