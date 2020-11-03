@@ -24,7 +24,7 @@ git clone https://github.com/Pilouche/blablacar-technical-test.git
 mvn clean install
 mvn -e exec:java -Dexec.args="scenarios/fileName1 scenarios/fileName2 ..."
 ```
-The input files are stored in "/blablacar-technical-test/src/main/resources/scenarios/". Feel free to add your own scenarios there in order them.
+The input files are stored in "/blablacar-technical-test/src/main/resources/scenarios/". Feel free to add your own scenarios there in order to test them.
  
 ## Running the tests
 Unit tests are automatically run when compiling the project with maven.
@@ -50,7 +50,7 @@ The project is divied into 4 packages :
 
 ## Discussion on parallel execution
 After understanding that the mowers could be ran simultaneously, a new approach had to be taken in order to tackle this problem. Thus, the first thing to do was to find which object(s) needed to be synchronized between all the running threads. 
-The mowers can be run in their own thread, using a ```parallelStream()``` on the mowers list, without conccurent modification issue as their state is not changed by another thread inside the algorithm. This has been added to the new moving algorithm.
+The mowers can be run in their own thread, using a ```parallelStream()``` on the mowers list, without concurent modification issue as their state is not changed by another thread inside the algorithm. This has been added to the new moving algorithm.
 On the contrary, the map handling the current positions, ```currentPositions```, needs to be accessed and potentially modifed by all the mowers threads. A concurrent access mechanism on this object is then required in order to keep consistency across those threads.
 
 First thought was using the **Lombok** built-in annotation ```@Synchronized```, as shown in this code snippet :
@@ -64,7 +64,7 @@ private void moveIfNextPositionIsAvailable(Mower mower, Point nextPosition, int 
       ...
     }
  ```
-Unfortunately, this implements a total locking mechanism (using this intrisic ock of the object) on the object supplied in the annotation, here ```currentPositions```. Hence, the whole map is locked by one single thread when other threads are trying to access it. This often results in bad performance results as the threads spend more time waiting to get access than doing the actual operation. In the worst case, we can even end up having infinite loop/deadlock problems if the implementation is not correct. 
+Unfortunately, this implements a total locking mechanism (using the intrisic lock of the object) on the object supplied in the annotation, here ```currentPositions```. Hence, the whole map is locked by one single thread when other threads are trying to access it. This often results in bad performance results as the threads spend more time waiting to get access than doing the actual operation. In the worst case, we can even end up having infinite loop/deadlock problems if the implementation is not correct. 
 Therefore, the second option was to used the ```synchronizedMap()``` method from Java Collections. After reading the documentation, it turned out that this method was also using a single lock for the whole map object. Hence, this solution had the same performance issues as the Lombok implementation so it was discarded.
 
 It is where the ```ConcurrentHashMap``` implementation of ```Map``` intervenes. This concurrent version allows bettter performances than the aforementioned implementations. In this case the locking mechanism is different, the map is divided into several segments. Then, the lock is performed on those, let's say, **n** segments. This means that, if a thread is currently accessing **1** segment, all the other segments, so **n-1** segments, are free to be accessed by other threads. Thanks to that implementation, a way better performance is achieved as the whole map is not locked by single thread, but either one or more segments. This implementation has been added to the ```currentPositions``` map when it's initiliazed in the **Launcher java** class thanks to ```toConcurrentMap(k, v)``` method.
